@@ -1,9 +1,13 @@
 import { useState } from "react";
 import "./App.css";
+import contracts from "./contracts.json";
 
 function App() {
+  const maintance = contracts
+
   const [fv, setFv] = useState([""]);
   const [plates, setPlates] = useState([""]);
+  const [maintancePlates, setMaintancePlates] = useState([""]);
 
   const handleFv = (event, invoice) => {
     event.preventDefault();
@@ -19,16 +23,39 @@ function App() {
     window.open(totallLossAddress, "_blank");
   };
 
-const updateFv = (index, value) => {
-  const updatedFv = [...fv];
-  updatedFv[index] = value;
-  setFv(updatedFv)
-}
+  const handleMaintance = (event, maintancePlate) => {
+    event.preventDefault();
+    const searchId = maintancePlate.trim();
+    const foundObject = maintance.find(item => item[searchId]);
+  
+    let result = null;
+  
+    if (foundObject) {
+      result = foundObject[searchId];
+    } else {
+      result = "Nie znaleziono pasującego obiektu";
+    }
+    
+    const maintanceAddress = `${result}`;
+    window.open(maintanceAddress, "_blank");
+  };
+
+  const updateFv = (index, value) => {
+    const updatedFv = [...fv];
+    updatedFv[index] = value;
+    setFv(updatedFv);
+  };
 
   const updatePlate = (index, value) => {
     const updatedPlates = [...plates];
     updatedPlates[index] = value;
     setPlates(updatedPlates);
+  };
+  
+  const updateMaintancePlate = (index, value) => {
+    const updatedPlates = [...maintancePlates];
+    updatedPlates[index] = value;
+    setMaintancePlates(updatedPlates);
   };
 
   const addPlate = (event) => {
@@ -41,6 +68,13 @@ const updateFv = (index, value) => {
     setFv([...fv, ""]);
   };
 
+  const addMaintancePlate = (event) => {
+    event.preventDefault();
+    setMaintancePlates([...maintancePlates, ""]);
+  };
+
+  
+console.log(maintancePlates)
   return (
     <div>
       numer faktury
@@ -68,11 +102,33 @@ const updateFv = (index, value) => {
               value={plate}
               onChange={(event) => updatePlate(index, event.target.value)}
             ></input>
-            <button onClick={(event) => handleTotallLoss(event, plate)}>GO</button>
+            <button onClick={(event) => handleTotallLoss(event, plate)}>
+              GO
+            </button>
             <button onClick={(event) => addPlate(event)}>+</button>
           </form>
         </div>
       ))}
+      <br></br>
+      <br></br>
+      historia serwisowa:
+      <br></br>
+      {maintancePlates.map((maintancePlate, index) => (
+        <div key={index}>
+          <form>
+            <input
+              type="text"
+              value={maintancePlate}
+              onChange={(event) => updateMaintancePlate(index, event.target.value)}
+            ></input>
+            <button onClick={(event) => handleMaintance(event, maintancePlate)}>
+              GO
+            </button>
+            <button onClick={(event) => addMaintancePlate(event)}>+</button>
+          </form>
+        </div>
+      ))}
+      
     </div>
   );
 }
