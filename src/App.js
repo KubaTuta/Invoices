@@ -1,7 +1,7 @@
 
 import { Container } from "./common/styles";
 import Invoices from "./features/Invoices";
-import Maintance from "./features/Maintance";
+import Plates from "./features/Plates";
 import myImage from "./features/Images/logo.png"
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <Container>
       <img src={myImage} alt="Opis obrazu" />
       <Invoices />
-      <Maintance />
+      <Plates />
     </Container>
   );
 }
