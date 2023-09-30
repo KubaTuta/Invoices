@@ -70,7 +70,7 @@ const Plates = () => {
 
   return (
     <Container>
-      historia serwisowa:
+      nr tablicy:
       {plates.map((maintancePlate, index) => (
         <FormStyled key={index}>
           <InputStyled
