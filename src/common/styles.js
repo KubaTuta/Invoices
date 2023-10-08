@@ -9,6 +9,7 @@ export const FormStyled = styled.form``;
 
 export const InputStyled = styled.input`
   border-radius: 100px;
+  text-align: center;
 `;
 
 export const AStyled = styled.a`

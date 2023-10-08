@@ -4,6 +4,7 @@ import Invoices from "./features/Invoices";
 import Plates from "./features/Plates";
 import myImage from "./features/Images/logo.png"
 import WordDistributor from "./features/WordDistributor";
+import Update from "./features/Update";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Invoices />
       <Plates />
       <WordDistributor />
+      <Update />
     </Container>
   );
 }
