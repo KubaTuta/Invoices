@@ -1,20 +1,50 @@
-
-import { Container } from "./common/styles";
-import Invoices from "./features/Invoices";
-import Plates from "./features/Plates";
-import myImage from "./features/Images/logo.png"
-import WordDistributor from "./features/WordDistributor";
 import Update from "./features/Update";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import Main from "./features/Main";
+import { Bar, LinkDiv, StyledNavLink } from "./styles";
+import WordDistributor from "./features/WordDistributor";
+import Invoices from "./features/Invoices";
+import { useState } from "react";
 
 function App() {
+  const [plates, setPlates] = useState([""]);
+  const navigate = useNavigate();
+
+  const cleaningHandler = (url) => {
+    navigate(url);
+  };
   return (
-    <Container>
-      <img src={myImage} alt="Opis obrazu" />
-      <Invoices />
-      <Plates />
-      <WordDistributor />
-      <Update />
-    </Container>
+    <>
+      <Bar>
+        <LinkDiv>
+          <StyledNavLink to="*" onClick={() => cleaningHandler("*")}>
+            Main
+          </StyledNavLink>
+        </LinkDiv>
+        <LinkDiv>
+          <StyledNavLink to="/wordDistributor" onClick={() => cleaningHandler("/wordDistributor")}>
+            Combo
+          </StyledNavLink>
+        </LinkDiv>
+        <LinkDiv>
+          <StyledNavLink to="/fv" onClick={() => cleaningHandler("/fv")}>
+            FV
+          </StyledNavLink>
+        </LinkDiv>
+        <LinkDiv>
+          <StyledNavLink to="/update" onClick={() => cleaningHandler("/update")}>
+            Update
+          </StyledNavLink>
+        </LinkDiv>
+      </Bar>
+
+      <Routes>
+        <Route path="*" element={<Main plates={plates} setPlates={setPlates} />} />
+        <Route path="/wordDistributor" element={<WordDistributor plates={plates} setPlates={setPlates} />} />
+        <Route path="/fv" element={<Invoices />} />
+        <Route path="/update" element={<Update />} />
+      </Routes>
+    </>
   );
 }
 
