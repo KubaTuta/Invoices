@@ -1,17 +1,8 @@
-import { useState } from "react";
 import contracts from "../../contracts.json";
-import {
-  AStyled,
-  Container,
-  FormStyled,
-  InputStyled,
-  PlusButton,
-} from "../../common/styles";
+import { AStyled, VerticalDiv } from "../../common/styles";
 
-const Plates = () => {
+const Plates = ({ plates, setPlates }) => {
   const maintance = contracts;
-
-  const [plates, setPlates] = useState([""]);
 
   const handleMaintance = (event, maintancePlate) => {
     event.preventDefault();
@@ -28,17 +19,6 @@ const Plates = () => {
 
     const maintanceAddress = `https://dynamos.benelux.intra.corp/Maintenance/ContractMaintenanceHistoryEntry.aspx?ContractNr=${result}&FromDashboard=1`;
     window.open(maintanceAddress, "_blank");
-  };
-
-  const updatePlate = (index, value) => {
-    const updatedPlates = [...plates];
-    updatedPlates[index] = value;
-    setPlates(updatedPlates);
-  };
-
-  const addPlate = (event) => {
-    event.preventDefault();
-    setPlates([...plates, ""]);
   };
 
   const handleHref = (maintancePlate) => {
@@ -69,20 +49,14 @@ const Plates = () => {
   };
 
   return (
-    <Container>
-      nr tablicy:
+    <VerticalDiv>
       {plates.map((maintancePlate, index) => (
-        <FormStyled key={index}>
-          <InputStyled
-            type="text"
-            value={maintancePlate}
-            onChange={(event) => updatePlate(index, event.target.value)}
-          ></InputStyled>
+        <div key={index}>
           <AStyled
             href={aHrefHandleTotallLoss(maintancePlate)}
             onClick={(event) => handleTotallLoss(event, maintancePlate)}
           >
-            SZKODA  
+            SZKODA
           </AStyled>
           <AStyled
             href={handleHref(maintancePlate)}
@@ -90,10 +64,9 @@ const Plates = () => {
           >
             SERWIS
           </AStyled>
-          <PlusButton onClick={(event) => addPlate(event)}>+</PlusButton>
-        </FormStyled>
+        </div>
       ))}
-    </Container>
+    </VerticalDiv>
   );
 };
 
