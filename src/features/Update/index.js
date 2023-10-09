@@ -47,14 +47,17 @@ const Update = () => {
     }
   };
 
+  const handleUpdate = () => {
+    localStorage.setItem("invoices", JSON.stringify(data))
+  }
+
   return (
     <Container>
       <FormStyled>
         <InputStyled type="file" onChange={(event) => handleInput(event)} />
         <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
       </FormStyled>
-      <button>{data !== null ? "YES" : "NO"}</button>
-      {console.log(data)}
+      <button onClick={handleUpdate}>{data !== null ? "YES" : "NO"}</button>
     </Container>
   );
 };
