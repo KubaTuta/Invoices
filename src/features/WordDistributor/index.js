@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ComboDiv, TextCombo } from "./styles";
+import { ComboButton, ComboDiv, ComboFrame, TextCombo } from "./styles";
 import Main from "../Main";
 
 const WordDistributor = () => {
@@ -25,10 +25,10 @@ const WordDistributor = () => {
 
   return (
     <ComboDiv>
-      <div>
+      <ComboFrame>
         <TextCombo value={textarea} onChange={updateTextarea}></TextCombo>
-        <button onClick={distributWords}>GO</button>
-      </div>
+        <ComboButton onClick={distributWords}>GO</ComboButton>
+      </ComboFrame>
       <Main plates={plates} setPlates={setPlates} />
     </ComboDiv>
   );
