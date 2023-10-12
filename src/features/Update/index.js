@@ -10,7 +10,6 @@ const Update = () => {
     event.preventDefault();
     setFile(event.target.files[0]);
   };
-  console.log(file);
 
   const handleConvert = (event) => {
     event.preventDefault();
@@ -33,10 +32,10 @@ const Update = () => {
             const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 36 })];
             const cellC = worksheet[XLSX.utils.encode_cell({ r: i, c: 2 })];
 
-            if (cellA && cellB && cellC) {
+            if (cellA) {
               const plate = cellA.v;
-              const fvNumber = cellB.v;
-              const status = cellC.v;
+              const fvNumber = cellB ? cellB.v : "Brak";
+              const status = cellC ? cellC.v : "Brak";
               const obj = { plate, status, fvNumber };
               resultArray.push(obj);
             }
@@ -48,16 +47,22 @@ const Update = () => {
   };
 
   const handleUpdate = () => {
-    localStorage.setItem("invoices", JSON.stringify(data))
-  }
+    localStorage.setItem("invoices", JSON.stringify(data));
+    console.log(JSON.parse(localStorage.getItem("invoices")));
+    alert("Można działać")
+  };
 
   return (
     <Container>
       <FormStyled>
         <InputStyled type="file" onChange={(event) => handleInput(event)} />
-        <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
+        {file && (data === null) ? (
+          <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
+        ) : (
+          ""
+        )}
       </FormStyled>
-      <button onClick={handleUpdate}>{data !== null ? "YES" : "NO"}</button>
+      {data !== null ? <button onClick={handleUpdate}>GO</button> : ""}
     </Container>
   );
 };
