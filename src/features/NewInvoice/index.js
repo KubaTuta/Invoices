@@ -29,7 +29,7 @@ const NewInvoice = ({plates, setPlates}) => {
     console.log(plateIndex);
 
     if (plateIndex === -1) {
-      return "NONE";
+      return "BRAK";
     } else return invoices[plateIndex].status;
   };
 
@@ -44,7 +44,7 @@ const NewInvoice = ({plates, setPlates}) => {
                 displayStatus(plate) === "PAID" ||
                 displayStatus(plate) === "REALEASED" ||
                 displayStatus(plate) === "FREE" ||
-                displayStatus(plate) === "NONE"
+                displayStatus(plate) === "BRAK"
               ) {
                 event.preventDefault();
               } else {
@@ -56,7 +56,7 @@ const NewInvoice = ({plates, setPlates}) => {
                 displayStatus(plate) === "PAID" ||
                 displayStatus(plate) === "REALEASED" ||
                 displayStatus(plate) === "FREE" ||
-                displayStatus(plate) === "NONE"
+                displayStatus(plate) === "BRAK"
               ) {
                 event.preventDefault();
               } else {
@@ -67,7 +67,7 @@ const NewInvoice = ({plates, setPlates}) => {
               displayStatus(plate) === "PAID" ||
               displayStatus(plate) === "REALEASED" ||
               displayStatus(plate) === "FREE" ||
-              displayStatus(plate) === "NONE"
+              displayStatus(plate) === "BRAK"
             }
           >
             {displayStatus(plate)}

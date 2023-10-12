@@ -5,7 +5,6 @@ import NewInvoice from "../NewInvoice";
 import Input from "../Input";
 
 const Main = ({plates, setPlates}) => {
-  // const [plates, setPlates] = useState([""]);
 
   return (
     <Container>
