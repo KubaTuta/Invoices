@@ -16,9 +16,11 @@ const WordDistributor = () => {
     const platesArray = words
       .map((word) => {
         const properWord = word.replace(/[^a-zA-Z0-9]/g, "");
-        return properWord.toUpperCase();
+        if (/^(?=.*[a-zA-Z])(?=.*[0-9])/.test(properWord)) {
+          return properWord.toUpperCase();
+        } else return null;
       })
-      .filter((word) => word.length === 7);
+      .filter((word) => word !== null && (word.length === 7 || word.length === 8));
 
     setPlates(platesArray);
   };
