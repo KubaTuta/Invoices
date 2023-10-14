@@ -5,6 +5,7 @@ import { Bar, LinkDiv, StyledNavLink } from "./styles";
 import WordDistributor from "./features/WordDistributor";
 import Invoices from "./features/Invoices";
 import { useState } from "react";
+import KeyRack from "./features/KeyRack";
 
 function App() {
   const [plates, setPlates] = useState([""]);
@@ -31,6 +32,11 @@ function App() {
             FV
           </StyledNavLink>
         </LinkDiv>
+           <LinkDiv>
+          <StyledNavLink to="/keyRack" onClick={() => cleaningHandler("/keyRack")}>
+            Szafa
+          </StyledNavLink>
+        </LinkDiv>
         <LinkDiv>
           <StyledNavLink to="/update" onClick={() => cleaningHandler("/update")}>
             Update
@@ -42,6 +48,7 @@ function App() {
         <Route path="*" element={<Main plates={plates} setPlates={setPlates} />} />
         <Route path="/wordDistributor" element={<WordDistributor plates={plates} setPlates={setPlates} />} />
         <Route path="/fv" element={<Invoices />} />
+        <Route path="/keyRack" element={<KeyRack />} />
         <Route path="/update" element={<Update />} />
       </Routes>
     </>
