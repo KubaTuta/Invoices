@@ -31,12 +31,15 @@ const Update = () => {
             const cellA = worksheet[XLSX.utils.encode_cell({ r: i, c: 0 })];
             const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 36 })];
             const cellC = worksheet[XLSX.utils.encode_cell({ r: i, c: 2 })];
+            const cellD = worksheet[XLSX.utils.encode_cell({ r: i, c: 37 })];
 
             if (cellA) {
               const plate = cellA.v;
               const fvNumber = cellB ? cellB.v : "Brak";
               const status = cellC ? cellC.v : "Brak";
-              const obj = { plate, status, fvNumber };
+              const excelDate = cellD ? cellD.v : "Brak";
+              const invoiceIssue = excelDate !== "Brak" ? (new Date((excelDate-25569)*86400000)).toLocaleDateString() : "Brak";
+              const obj = { id: i, plate, status, fvNumber, invoiceIssue };
               resultArray.push(obj);
             }
           }
@@ -48,15 +51,14 @@ const Update = () => {
 
   const handleUpdate = () => {
     localStorage.setItem("invoices", JSON.stringify(data));
-    console.log(JSON.parse(localStorage.getItem("invoices")));
-    alert("Można działać")
+    alert("Można działać");
   };
 
   return (
     <Container>
       <FormStyled>
         <InputStyled type="file" onChange={(event) => handleInput(event)} />
-        {file && (data === null) ? (
+        {file && data === null ? (
           <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
         ) : (
           ""
