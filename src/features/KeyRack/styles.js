@@ -9,5 +9,10 @@ export const Tile = styled.div`
 `;
 
 export const Layout = styled.div`
-display: flex;
-`
+  display: flex;
+`;
+
+export const StyledSelect = styled.select`
+  width: 100px;
+  margin: 1px;
+`;

@@ -1,62 +1,69 @@
 import { useState } from "react";
-import { Layout, Tile } from "./styles";
+import { Layout, StyledSelect, Tile } from "./styles";
 
 export const KeyRack = () => {
   const evidence = JSON.parse(localStorage.getItem("invoices"));
-  console.log(evidence);
 
-  const [selectedFilter, setSelectedFilter] = useState("Wszystko");
+  const [selectedFilter, setSelectedFilter] = useState({id: "ALL", plate: "ALL", status: "ALL", fvNumber: "ALL", invoiceIssue: "ALL"});
+  const headers = Object.keys(selectedFilter);
 
-  const handleFilterChange = (filter) => {
-    setSelectedFilter(filter);
+  console.log(evidence)
+
+
+  const handleFilterChanger = (filter, filterType) => {
+    setSelectedFilter(prevFilter => ({
+      ...prevFilter,
+      [filterType]: isNaN(filter) ? filter : parseFloat(filter)
+    }));
   };
 
-  const uniqueStatuses = Array.from(
-    new Set(evidence.map((plate) => plate.status))
-  );
+  console.log(selectedFilter)
 
-  const filteredEvidence = evidence.filter((plate) => {
-    if (selectedFilter === "Wszystko") {
-      return true;
-    }
-    return plate.status === selectedFilter;
+  const filteredEvidence = evidence.filter((filterType) => {
+    return headers.every((key)=> {
+      return selectedFilter[key] === "ALL" || selectedFilter[key] === filterType[key]
+    })
   });
 
   return (
     <>
+
       <Layout>
-        {Object.keys(evidence[0]).map((header, index) => (
+        {headers.map((header, index) => (
           <Tile key={index}>{header}</Tile>
         ))}
       </Layout>
+
       <Layout>
+        {headers.map((header, index) => {
+          const unique = Array.from(
+            new Set(evidence.map((filterType) => filterType[header]))
+          );
 
-
-
-
-
-        
-        <select
-        value={selectedFilter}
-        onChange={(e) => handleFilterChange(e.target.value)}
-      >
-        <option value="Wszystko">Wszystko</option>
-
-        {uniqueStatuses.map((status) => (
-          <option key={status} value={status}>
-            {status}
-          </option>
-        ))}
-      </select>
+          return (
+            <StyledSelect
+              key={index}
+              value={selectedFilter[header]}
+              onChange={(e) => handleFilterChanger(e.target.value, header)}
+            >
+              <option value="ALL">ALL</option>
+              {unique.slice(0,100).map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </StyledSelect>
+          );
+        })}
       </Layout>
-      
-      {filteredEvidence.slice(0, 100).map((plate) => (
-        <Layout key={plate.id}>
-          <Tile>{plate.id}</Tile>
-          <Tile>{plate.plate}</Tile>
-          <Tile>{plate.status}</Tile>
-          <Tile>{plate.fvNumber}</Tile>
-          <Tile>{plate.invoiceIssue}</Tile>
+
+      {filteredEvidence.slice(0, 100).map((filterType) => (
+        <Layout key={filterType.id}>
+          <Tile>{filterType.id}</Tile>
+          <Tile>{filterType.plate}</Tile>
+          <Tile>{filterType.status}</Tile>
+          <Tile>{filterType.fvNumber}</Tile>
+          <Tile>{filterType.invoiceIssue}</Tile>
         </Layout>
       ))}
       <button>BACK</button>
