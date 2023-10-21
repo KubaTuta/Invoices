@@ -37,7 +37,7 @@ export const KeyRack = () => {
       <Layout>
         {headers.map((header, index) => {
           const unique = Array.from(
-            new Set(evidence.map((filterType) => filterType[header]))
+            new Set(filteredEvidence.map((filterType) => filterType[header]))
           );
 
           return (
