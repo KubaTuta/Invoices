@@ -44,6 +44,8 @@ const NewInvoice = ({plates, setPlates}) => {
                 displayStatus(plate) === "PAID" ||
                 displayStatus(plate) === "REALEASED" ||
                 displayStatus(plate) === "FREE" ||
+                displayStatus(plate) === "SOLD" ||
+                displayStatus(plate) === "DUBEL" ||
                 displayStatus(plate) === "BRAK"
               ) {
                 event.preventDefault();
@@ -56,6 +58,8 @@ const NewInvoice = ({plates, setPlates}) => {
                 displayStatus(plate) === "PAID" ||
                 displayStatus(plate) === "REALEASED" ||
                 displayStatus(plate) === "FREE" ||
+                displayStatus(plate) === "SOLD" ||
+                displayStatus(plate) === "DUBEL" ||
                 displayStatus(plate) === "BRAK"
               ) {
                 event.preventDefault();
@@ -67,6 +71,8 @@ const NewInvoice = ({plates, setPlates}) => {
               displayStatus(plate) === "PAID" ||
               displayStatus(plate) === "REALEASED" ||
               displayStatus(plate) === "FREE" ||
+              displayStatus(plate) === "SOLD" ||
+              displayStatus(plate) === "DUBEL" ||
               displayStatus(plate) === "BRAK"
             }
           >
