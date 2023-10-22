@@ -1,33 +1,58 @@
 import { useState } from "react";
-import { Layout, StyledSelect, Tile } from "./styles";
+import { CustomDatePicker, Layout, StyledSelect, Tile } from "./styles";
 
 export const KeyRack = () => {
   const evidence = JSON.parse(localStorage.getItem("invoices"));
 
-  const [selectedFilter, setSelectedFilter] = useState({id: "ALL", plate: "ALL", status: "ALL", fvNumber: "ALL", invoiceIssue: "ALL"});
+  const [selectedFilter, setSelectedFilter] = useState({
+    id: "ALL",
+    plate: "ALL",
+    status: "ALL",
+    fvNumber: "ALL",
+    invoiceIssue: "ALL",
+  });
   const headers = Object.keys(selectedFilter);
 
-  console.log(evidence)
-
+  console.log(evidence);
+  
 
   const handleFilterChanger = (filter, filterType) => {
-    setSelectedFilter(prevFilter => ({
+    setSelectedFilter((prevFilter) => ({
       ...prevFilter,
-      [filterType]: isNaN(filter) ? filter : parseFloat(filter)
+      [filterType]: isNaN(filter) ? filter : parseFloat(filter),
     }));
   };
 
-  console.log(selectedFilter)
+  const handleDate = (date) => {
+    const day = String(date.getDate());
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    const formattedDate = `${day}.${month}.${year}`;
+
+    setSelectedFilter({ ...selectedFilter, invoiceIssue: formattedDate });
+  };
+
+  const dateFormatter = () => {
+    const dateArray = selectedFilter.invoiceIssue.split(".");
+    const day = parseInt(dateArray[0], 10);
+    const month = parseInt(dateArray[1], 10) - 1;
+    const year = parseInt(dateArray[2], 10);
+    return new Date(year, month, day);
+  };
+
+  console.log(selectedFilter);
 
   const filteredEvidence = evidence.filter((filterType) => {
-    return headers.every((key)=> {
-      return selectedFilter[key] === "ALL" || selectedFilter[key] === filterType[key]
-    })
+    return headers.every((key) => {
+      return (
+        selectedFilter[key] === "ALL" || selectedFilter[key] === filterType[key]
+      );
+    });
   });
 
   return (
     <>
-
       <Layout>
         {headers.map((header, index) => (
           <Tile key={index}>{header}</Tile>
@@ -39,21 +64,34 @@ export const KeyRack = () => {
           const unique = Array.from(
             new Set(filteredEvidence.map((filterType) => filterType[header]))
           );
-
-          return (
-            <StyledSelect
-              key={index}
-              value={selectedFilter[header]}
-              onChange={(e) => handleFilterChanger(e.target.value, header)}
-            >
-              <option value="ALL">ALL</option>
-              {unique.slice(0,100).map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
-            </StyledSelect>
-          );
+          if (header === "invoiceIssue") {
+            return (
+              <CustomDatePicker
+                selected={
+                  selectedFilter.invoiceIssue === "ALL"
+                    ? new Date()
+                    : dateFormatter()
+                }
+                onSelect={(date) => handleDate(date)}
+                onClickOutside={()=>setSelectedFilter({...selectedFilter, invoiceIssue: "ALL"})}
+                dateFormat="dd.MM.yyyy"
+              />
+            );
+          } else
+            return (
+              <StyledSelect
+                key={index}
+                value={selectedFilter[header]}
+                onChange={(e) => handleFilterChanger(e.target.value, header)}
+              >
+                <option value="ALL">ALL</option>
+                {unique.slice(0, 1000).map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </StyledSelect>
+            );
         })}
       </Layout>
 

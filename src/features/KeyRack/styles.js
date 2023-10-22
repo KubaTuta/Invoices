@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const Tile = styled.div`
   height: 30px;
@@ -14,5 +16,11 @@ export const Layout = styled.div`
 
 export const StyledSelect = styled.select`
   width: 100px;
+  margin: 1px;
+`;
+
+export const CustomDatePicker = styled(DatePicker)`
+  width: 100px;
+  height: 30px;
   margin: 1px;
 `;
