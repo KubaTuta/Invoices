@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   AStyled,
-  Container,
   FormStyled,
   InputStyled,
   PlusButton,
@@ -16,11 +15,6 @@ const Invoices = () => {
     const trimmedFv = invoice.trim();
     const address = `https://dynamos.benelux.intra.corp/Archive/MainArchive.aspx?searchModus=2&contractnr=0&calcbasisvolgnr=0&nawnr=0&SleutelWaarde=${trimmedFv}&Caller=OnNotifyRowClick`;
     window.open(address, "_blank");
-  };
-  const aHrefHandleFv = (invoice) => {
-    const trimmedFv = invoice.trim();
-    const address = `https://dynamos.benelux.intra.corp/Archive/MainArchive.aspx?searchModus=2&contractnr=0&calcbasisvolgnr=0&nawnr=0&SleutelWaarde=${trimmedFv}&Caller=OnNotifyRowClick`;
-    return address;
   };
 
   const updateFv = (index, value) => {
@@ -45,8 +39,9 @@ const Invoices = () => {
             onChange={(event) => updateFv(index, event.target.value)}
           ></InputStyled>
           <AStyled
-            href={aHrefHandleFv(invoice)}
+            href="https://"
             onClick={(event) => handleFv(event, invoice)}
+            onAuxClick={(event) => handleFv(event, invoice)}
           >
             LINK
           </AStyled>
