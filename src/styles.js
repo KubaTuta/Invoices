@@ -31,3 +31,10 @@ text-decoration: none;
   }
 `;
 
+export const ResetButton = styled.button`
+position: absolute;
+top: 45px;
+right: 10px;
+color: white;
+background: black;
+`
