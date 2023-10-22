@@ -6,6 +6,7 @@ import {
   InputStyled,
   PlusButton,
 } from "../../common/styles";
+import { Equator } from "./styles";
 
 const Invoices = () => {
   const [fv, setFv] = useState([""]);
@@ -34,8 +35,8 @@ const Invoices = () => {
   };
 
   return (
-    <Container>
-      numer faktury
+    <Equator>
+      numer faktury: &nbsp;
       {fv.map((invoice, index) => (
         <FormStyled key={index}>
           <InputStyled
@@ -52,7 +53,7 @@ const Invoices = () => {
           <PlusButton onClick={(event) => addFv(event)}>+</PlusButton>
         </FormStyled>
       ))}
-    </Container>
+    </Equator>
   );
 };
 
