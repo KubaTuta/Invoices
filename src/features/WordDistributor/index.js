@@ -31,7 +31,7 @@ const WordDistributor = () => {
         <TextCombo value={textarea} onChange={updateTextarea}></TextCombo>
         <ComboButton onClick={distributWords}>GO</ComboButton>
       </ComboFrame>
-      <Main plates={plates} setPlates={setPlates} />
+      <Main plates={plates} setPlates={setPlates} textarea={textarea} setTextarea={setTextarea} />
     </ComboDiv>
   );
 };

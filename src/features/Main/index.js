@@ -5,7 +5,12 @@ import NewInvoice from "../NewInvoice";
 import Input from "../Input";
 import { ResetButton } from "../../styles";
 
-const Main = ({plates, setPlates}) => {
+const Main = ({plates, setPlates, textarea, setTextarea}) => {
+
+  const handleReset = () => {
+    setPlates([""])
+    setTextarea([""])
+  }
 
   return (
     <>
@@ -15,7 +20,7 @@ const Main = ({plates, setPlates}) => {
       <Plates plates={plates} setPlates={setPlates} />
       <NewInvoice plates={plates} setPlates={setPlates} />
     </Container>
-    <ResetButton onClick={()=>setPlates([""])}>RESET</ResetButton>
+    <ResetButton onClick={()=>handleReset()}>RESET</ResetButton>
     </>
     
   );
