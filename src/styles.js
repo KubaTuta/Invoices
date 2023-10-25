@@ -37,4 +37,5 @@ top: 45px;
 right: 10px;
 color: white;
 background: black;
+cursor: pointer;
 `
