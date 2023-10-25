@@ -5,7 +5,7 @@ import NewInvoice from "../NewInvoice";
 import Input from "../Input";
 import { ResetButton } from "../../styles";
 
-const Main = ({plates, setPlates, textarea, setTextarea}) => {
+const Main = ({plates, setPlates, setTextarea}) => {
 
   const handleReset = () => {
     setPlates([""])
