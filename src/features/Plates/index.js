@@ -1,18 +1,17 @@
-import contracts from "../../contracts.json";
 import { AStyled, VerticalDiv } from "../../common/styles";
 
-const Plates = ({ plates, setPlates }) => {
-  const maintance = contracts;
+const Plates = ({ plates }) => {
+  const maintance = JSON.parse(localStorage.getItem("service")) || [];
 
   const handleMaintance = (event, maintancePlate) => {
     event.preventDefault();
-    const searchId = maintancePlate.trim().toUpperCase();
-    const foundObject = maintance.find((item) => item[searchId]);
+    const searchedPlate = maintancePlate.trim().toUpperCase();
+    const foundObject = maintance.find((item) => item.plate === searchedPlate);
 
     let result = null;
 
     if (foundObject) {
-      result = foundObject[searchId];
+      result = foundObject.contract;
     } else {
       result = "Nie znaleziono pasującego obiektu";
     }
