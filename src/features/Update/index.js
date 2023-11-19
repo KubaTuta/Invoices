@@ -1,28 +1,30 @@
 import { useState } from "react";
-import { Container, FormStyled, InputStyled, VerticalDiv } from "../../common/styles";
+import {
+  Container,
+  FormStyled,
+  InputStyled,
+  VerticalDiv,
+} from "../../common/styles";
 var XLSX = require("xlsx");
 
 const Update = () => {
-  const [file, setFile] = useState(null);
-  const [lossFile, setLossFile] = useState(null)
-  const [data, setData] = useState(null);
-  const [lossData, setLossData] = useState(null)
+  const [file, setFile] = useState([null, null]);
+  const [data, setData] = useState([null, null]);
 
-  const handleInput = (event) => {
+  const handleInput = (event, number) => {
     event.preventDefault();
-    setFile(event.target.files[0]);
+    setFile((prevFile) => {
+      const fileArray = [...prevFile];
+      fileArray[number] = event.target.files[0];
+      return fileArray;
+    });
   };
-
-  const handleLossInput = (event) => {
-    event.preventDefault();
-    setLossFile(event.target.files[0]);
-  }
 
   const handleConvert = (event) => {
     event.preventDefault();
-    if (file) {
+    if (file[0]) {
       const fileReader = new FileReader();
-      fileReader.readAsBinaryString(file);
+      fileReader.readAsBinaryString(file[0]);
 
       fileReader.onload = (event) => {
         const fileData = event.target.result;
@@ -45,22 +47,31 @@ const Update = () => {
               const fvNumber = cellB ? cellB.v : "Brak";
               const status = cellC ? cellC.v : "Brak";
               const excelDate = cellD ? cellD.v : "Brak";
-              const invoiceIssue = excelDate !== "Brak" ? (new Date((excelDate-25569)*86400000)).toLocaleDateString() : "Brak";
+              const invoiceIssue =
+                excelDate !== "Brak"
+                  ? new Date(
+                      (excelDate - 25569) * 86400000
+                    ).toLocaleDateString()
+                  : "Brak";
               const obj = { id: i, plate, status, fvNumber, invoiceIssue };
               resultArray.push(obj);
             }
           }
         });
-        setData(resultArray);
+        setData((prevData) => {
+          const dataArray = [...prevData];
+          dataArray[0] = resultArray;
+          return dataArray;
+        });
       };
     }
   };
 
   const handleLoss = (event) => {
     event.preventDefault();
-    if (lossFile) {
+    if (file[1]) {
       const fileReader = new FileReader();
-      fileReader.readAsBinaryString(lossFile);
+      fileReader.readAsBinaryString(file[1]);
 
       fileReader.onload = (event) => {
         const fileData = event.target.result;
@@ -74,60 +85,69 @@ const Update = () => {
 
           for (let i = 1; i <= rows; i++) {
             const cellA = worksheet[XLSX.utils.encode_cell({ r: i, c: 0 })];
-            const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 13 })];
-            
+            const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 1 })];
 
             if (cellA) {
               const plate = cellA.v;
-              const loss = cellB.v;
+              const loss = cellB ? cellB.v : "nieaktualne";
               const obj = { id: i, plate, loss };
               resultArray.push(obj);
             }
           }
         });
-        setLossData(resultArray);
+        setData((prevData) => {
+          const dataArray = [...prevData];
+          dataArray[1] = resultArray;
+          return dataArray;
+        });
       };
     }
-  }
-
-  const handleUpdate = () => {
-    localStorage.setItem("invoices", JSON.stringify(data));
-    alert("Można działać");
   };
 
-  const handleLossUpdate = () => {
-    localStorage.setItem("losses", JSON.stringify(lossData));
+  const handleUpdate = (data, arrayName) => {
+    localStorage.setItem(arrayName, JSON.stringify(data));
     alert("Można działać");
   };
 
   return (
     <VerticalDiv>
       <Container>
-      <FormStyled>
-        <InputStyled type="file" onChange={(event) => handleInput(event)} />
-        {file && data === null ? (
-          <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
+        <FormStyled>
+          <InputStyled
+            type="file"
+            onChange={(event) => handleInput(event, 0)}
+          />
+          {file[0] && data[0] === null ? (
+            <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
+          ) : (
+            ""
+          )}
+        </FormStyled>
+        {data[0] !== null ? (
+          <button onClick={() => handleUpdate(data[0], "invoices")}>GO</button>
         ) : (
           ""
         )}
-      </FormStyled>
-      {data !== null ? <button onClick={handleUpdate}>GO</button> : ""}
-    </Container>
-    <Container>
-      <FormStyled>
-        <InputStyled type="file" onChange={(event) => handleLossInput(event)} />
-        {lossFile && lossData === null ? (
-          <button onClick={(event) => handleLoss(event)}>Konwertuj</button>
+      </Container>
+      <Container>
+        <FormStyled>
+          <InputStyled
+            type="file"
+            onChange={(event) => handleInput(event, 1)}
+          />
+          {file[1] && data[1] === null ? (
+            <button onClick={(event) => handleLoss(event)}>Konwertuj</button>
+          ) : (
+            ""
+          )}
+        </FormStyled>
+        {data[1] !== null ? (
+          <button onClick={() => handleUpdate(data[1], "lossess")}>GO</button>
         ) : (
           ""
         )}
-      </FormStyled>
-      {lossData !== null ? <button onClick={handleLossUpdate}>GO</button> : ""}
-    </Container>
-
-
+      </Container>
     </VerticalDiv>
-    
   );
 };
 
