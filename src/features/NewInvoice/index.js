@@ -26,7 +26,6 @@ const NewInvoice = ({plates, setPlates}) => {
   const displayStatus = (plate) => {
     const searchId = plate.trim().toUpperCase();
     const plateIndex = invoices.findIndex((item) => item.plate === searchId);
-    console.log(plateIndex);
 
     if (plateIndex === -1) {
       return "BRAK";

@@ -13,9 +13,6 @@ export const KeyRack = () => {
   });
   const headers = Object.keys(selectedFilter);
 
-  console.log(evidence);
-  
-
   const handleFilterChanger = (filter, filterType) => {
     setSelectedFilter((prevFilter) => ({
       ...prevFilter,
@@ -40,8 +37,6 @@ export const KeyRack = () => {
     const year = parseInt(dateArray[2], 10);
     return new Date(year, month, day);
   };
-
-  console.log(selectedFilter);
 
   const filteredEvidence = evidence.filter((filterType) => {
     return headers.every((key) => {
@@ -73,7 +68,9 @@ export const KeyRack = () => {
                     : dateFormatter()
                 }
                 onSelect={(date) => handleDate(date)}
-                onClickOutside={()=>setSelectedFilter({...selectedFilter, invoiceIssue: "ALL"})}
+                onClickOutside={() =>
+                  setSelectedFilter({ ...selectedFilter, invoiceIssue: "ALL" })
+                }
                 dateFormat="dd.MM.yyyy"
               />
             );
