@@ -20,7 +20,7 @@ const Update = () => {
     });
   };
 
-  const handleConvert = (event) => {
+  const handleConvertRecords = (event) => {
     event.preventDefault();
     if (file[0]) {
       const fileReader = new FileReader();
@@ -67,7 +67,7 @@ const Update = () => {
     }
   };
 
-  const handleLoss = (event) => {
+  const handleConvertAuctionLossess = (event) => {
     event.preventDefault();
     if (file[1]) {
       const fileReader = new FileReader();
@@ -118,7 +118,7 @@ const Update = () => {
             onChange={(event) => handleInput(event, 0)}
           />
           {file[0] && data[0] === null ? (
-            <button onClick={(event) => handleConvert(event)}>Konwertuj</button>
+            <button onClick={(event) => handleConvertRecords(event)}>Konwertuj</button>
           ) : (
             ""
           )}
@@ -136,7 +136,7 @@ const Update = () => {
             onChange={(event) => handleInput(event, 1)}
           />
           {file[1] && data[1] === null ? (
-            <button onClick={(event) => handleLoss(event)}>Konwertuj</button>
+            <button onClick={(event) => handleConvertAuctionLossess(event)}>Konwertuj</button>
           ) : (
             ""
           )}
