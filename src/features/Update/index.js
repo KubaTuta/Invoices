@@ -9,8 +9,8 @@ import { useHooks } from "../../hooks";
 var XLSX = require("xlsx");
 
 const Update = () => {
-  const [file, setFile] = useState([null, null]);
-  const [data, setData] = useState([null, null]);
+  const [file, setFile] = useState([null, null, null]);
+  const [data, setData] = useState([null, null, null]);
 
   const handleInput = (event, number) => {
     event.preventDefault();
@@ -21,7 +21,7 @@ const Update = () => {
     });
   };
 
-  const {handleConvertRecords, handleConvertAuctionLossess} = useHooks(setData, file);
+  const {handleConvertRecords, handleConvertAuctionLossess , handleConvertService} = useHooks(setData, file);
 
   const handleUpdate = (data, arrayName) => {
     localStorage.setItem(arrayName, JSON.stringify(data));
@@ -62,6 +62,24 @@ const Update = () => {
         </FormStyled>
         {data[1] !== null ? (
           <button onClick={() => handleUpdate(data[1], "losses")}>GO</button>
+        ) : (
+          ""
+        )}
+      </Container>
+      <Container>
+        <FormStyled>
+          <InputStyled
+            type="file"
+            onChange={(event) => handleInput(event, 2)}
+          />
+          {file[2] && data[2] === null ? (
+            <button onClick={(event) => handleConvertService(event)}>Konwertuj</button>
+          ) : (
+            ""
+          )}
+        </FormStyled>
+        {data[2] !== null ? (
+          <button onClick={() => handleUpdate(data[2], "service")}>GO</button>
         ) : (
           ""
         )}
