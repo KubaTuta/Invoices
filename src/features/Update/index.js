@@ -7,11 +7,16 @@ import {
 } from "../../common/styles";
 import { useHooks } from "../../hooks";
 import { Title } from "./styled";
-var XLSX = require("xlsx");
 
 const Update = () => {
   const [file, setFile] = useState([null, null, null]);
   const [data, setData] = useState([null, null, null]);
+
+  const lastUpdateDate = (storage) => {
+    const array = JSON.parse(localStorage.getItem(storage)) || []
+    const updateDate = array[0]
+    return updateDate
+  }
 
   const handleInput = (event, number) => {
     event.preventDefault();
@@ -31,7 +36,7 @@ const Update = () => {
 
   return (
     <VerticalDiv>
-      <Title>Ewidencja:</Title>
+      <Title>Ewidencja: &nbsp; {typeof lastUpdateDate("invoices") === "string" ? `(ostatni update: ${lastUpdateDate("invoices")})` : ""}</Title>
       <Container>
         <FormStyled>
           <InputStyled
@@ -50,7 +55,7 @@ const Update = () => {
           ""
         )}
       </Container>
-      <Title>Szkody do aukcji:</Title>
+      <Title>Szkody do aukcji: &nbsp; {typeof lastUpdateDate("losses") === "string" ? `(Ostatni update: ${lastUpdateDate("losses")})` : ""}</Title>
       <Container>
         <FormStyled>
           <InputStyled
@@ -68,8 +73,9 @@ const Update = () => {
         ) : (
           ""
         )}
+        
       </Container>
-      <Title>Numery kontraktów do historii serwisowych:</Title>
+      <Title>Numery kontraktów do historii serwisowych: &nbsp; {typeof lastUpdateDate("service") === "string" ? `(Ostatni update: ${lastUpdateDate("service")})` : ""}</Title>
       <Container>
         <FormStyled>
           <InputStyled
