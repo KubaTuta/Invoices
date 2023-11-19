@@ -1,6 +1,14 @@
 var XLSX = require("xlsx");
 
 export const useHooks = (setData, file) => {
+  const today = new Date().toLocaleDateString("pl-PL", {
+    year: "numeric",
+    minute: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+  });
+
   const handleConvertRecords = (event) => {
     event.preventDefault();
     if (file[0]) {
@@ -39,6 +47,7 @@ export const useHooks = (setData, file) => {
             }
           }
         });
+        resultArray.unshift(today);
         setData((prevData) => {
           const dataArray = [...prevData];
           dataArray[0] = resultArray;
@@ -76,6 +85,7 @@ export const useHooks = (setData, file) => {
             }
           }
         });
+        resultArray.unshift(today);
         setData((prevData) => {
           const dataArray = [...prevData];
           dataArray[1] = resultArray;
@@ -112,6 +122,7 @@ export const useHooks = (setData, file) => {
             }
           }
         });
+        resultArray.unshift(today);
         setData((prevData) => {
           const dataArray = [...prevData];
           dataArray[2] = resultArray;
@@ -121,5 +132,10 @@ export const useHooks = (setData, file) => {
     }
   };
 
-  return {handleConvertRecords, handleConvertAuctionLossess, handleConvertService, setData};
+  return {
+    handleConvertRecords,
+    handleConvertAuctionLossess,
+    handleConvertService,
+    setData,
+  };
 };
