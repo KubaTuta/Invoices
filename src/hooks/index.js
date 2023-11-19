@@ -101,8 +101,8 @@ export const useHooks = (setData, file) => {
           const rows = range.e.r;
 
           for (let i = 1; i <= rows; i++) {
-            const cellA = worksheet[XLSX.utils.encode_cell({ r: i, c: 0 })];
-            const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 1 })];
+            const cellA = worksheet[XLSX.utils.encode_cell({ r: i, c: 1 })];
+            const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 0 })];
 
             if (cellA) {
               const plate = cellA.v;
