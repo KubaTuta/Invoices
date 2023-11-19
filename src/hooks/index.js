@@ -84,6 +84,42 @@ export const useHooks = (setData, file) => {
       };
     }
   };
+  const handleConvertService = (event) => {
+    event.preventDefault();
+    if (file[2]) {
+      const fileReader = new FileReader();
+      fileReader.readAsBinaryString(file[2]);
 
-  return {handleConvertRecords, handleConvertAuctionLossess, setData};
+      fileReader.onload = (event) => {
+        const fileData = event.target.result;
+        const workbook = XLSX.read(fileData, { type: "binary" });
+        const resultArray = [];
+
+        workbook.SheetNames.forEach((sheetName) => {
+          const worksheet = workbook.Sheets[sheetName];
+          const range = XLSX.utils.decode_range(worksheet["!ref"]);
+          const rows = range.e.r;
+
+          for (let i = 1; i <= rows; i++) {
+            const cellA = worksheet[XLSX.utils.encode_cell({ r: i, c: 0 })];
+            const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 1 })];
+
+            if (cellA) {
+              const plate = cellA.v;
+              const contract = cellB ? cellB.v : "nieaktualne";
+              const obj = { id: i, plate, contract };
+              resultArray.push(obj);
+            }
+          }
+        });
+        setData((prevData) => {
+          const dataArray = [...prevData];
+          dataArray[2] = resultArray;
+          return dataArray;
+        });
+      };
+    }
+  };
+
+  return {handleConvertRecords, handleConvertAuctionLossess, handleConvertService, setData};
 };
