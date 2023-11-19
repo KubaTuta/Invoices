@@ -6,6 +6,7 @@ import {
   VerticalDiv,
 } from "../../common/styles";
 import { useHooks } from "../../hooks";
+import { Title } from "./styled";
 var XLSX = require("xlsx");
 
 const Update = () => {
@@ -30,6 +31,7 @@ const Update = () => {
 
   return (
     <VerticalDiv>
+      <Title>Ewidencja:</Title>
       <Container>
         <FormStyled>
           <InputStyled
@@ -48,6 +50,7 @@ const Update = () => {
           ""
         )}
       </Container>
+      <Title>Szkody do aukcji:</Title>
       <Container>
         <FormStyled>
           <InputStyled
@@ -66,6 +69,7 @@ const Update = () => {
           ""
         )}
       </Container>
+      <Title>Numery kontraktów do historii serwisowych:</Title>
       <Container>
         <FormStyled>
           <InputStyled
