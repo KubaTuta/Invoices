@@ -19,12 +19,21 @@ function App() {
     <>
       <Bar>
         <LinkDiv>
-          <StyledNavLink to="*" onClick={() => cleaningHandler("*")}>
+          <StyledNavLink
+            to="*"
+            onClick={() => {
+              cleaningHandler("*");
+              setPlates([""]);
+            }}
+          >
             Main
           </StyledNavLink>
         </LinkDiv>
         <LinkDiv>
-          <StyledNavLink to="/wordDistributor" onClick={() => cleaningHandler("/wordDistributor")}>
+          <StyledNavLink
+            to="/wordDistributor"
+            onClick={() => cleaningHandler("/wordDistributor")}
+          >
             Combo
           </StyledNavLink>
         </LinkDiv>
@@ -33,26 +42,41 @@ function App() {
             FV
           </StyledNavLink>
         </LinkDiv>
-           <LinkDiv>
-          <StyledNavLink to="/keyRack" onClick={() => cleaningHandler("/keyRack")}>
+        <LinkDiv>
+          <StyledNavLink
+            to="/keyRack"
+            onClick={() => cleaningHandler("/keyRack")}
+          >
             Szafa
           </StyledNavLink>
         </LinkDiv>
         <LinkDiv>
-          <StyledNavLink to="/auctionLoss" onClick={() => cleaningHandler("/auctionLoss")}>
+          <StyledNavLink
+            to="/auctionLoss"
+            onClick={() => cleaningHandler("/auctionLoss")}
+          >
             Aukcje
           </StyledNavLink>
         </LinkDiv>
         <LinkDiv>
-          <StyledNavLink to="/update" onClick={() => cleaningHandler("/update")}>
+          <StyledNavLink
+            to="/update"
+            onClick={() => cleaningHandler("/update")}
+          >
             Update
           </StyledNavLink>
         </LinkDiv>
       </Bar>
 
       <Routes>
-        <Route path="*" element={<Main plates={plates} setPlates={setPlates} />} />
-        <Route path="/wordDistributor" element={<WordDistributor plates={plates} setPlates={setPlates} />} />
+        <Route
+          path="*"
+          element={<Main plates={plates} setPlates={setPlates} />}
+        />
+        <Route
+          path="/wordDistributor"
+          element={<WordDistributor plates={plates} setPlates={setPlates} />}
+        />
         <Route path="/fv" element={<Invoices />} />
         <Route path="/keyRack" element={<KeyRack />} />
         <Route path="/auctionLoss" element={<AuctionLoss />} />
