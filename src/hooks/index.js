@@ -33,15 +33,19 @@ export const useHooks = (setData, file) => {
 
             if (cellA) {
               const plate = cellA.v;
-              const fvNumber = cellB ? cellB.v : "Brak";
+              const fvNumber = cellB ? cellB.v : undefined;
               const status = cellC ? cellC.v : "Brak";
               const excelDate = cellD ? cellD.v : "Brak";
               const invoiceIssue =
                 excelDate !== "Brak"
                   ? new Date(
                       (excelDate - 25569) * 86400000
-                    ).toLocaleDateString()
-                  : "Brak";
+                    ).toLocaleDateString("pl-PL", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit"
+                    })
+                  : undefined;
               const obj = { id: i, plate, status, fvNumber, invoiceIssue };
               resultArray.push(obj);
             }
