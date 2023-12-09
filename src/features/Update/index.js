@@ -1,10 +1,6 @@
 import { useState } from "react";
-import {
-  Container,
-  FormStyled,
-  InputStyled,
-  VerticalDiv,
-} from "../../common/styles";
+import { FormStyled, InputStyled, VerticalDiv } from "../../common/styles";
+import { Container } from "./styled";
 import { useHooks } from "../../hooks";
 import { Title } from "./styled";
 
@@ -13,10 +9,10 @@ const Update = () => {
   const [data, setData] = useState([null, null, null]);
 
   const lastUpdateDate = (storage) => {
-    const array = JSON.parse(localStorage.getItem(storage)) || []
-    const updateDate = array[0]
-    return updateDate
-  }
+    const array = JSON.parse(localStorage.getItem(storage)) || [];
+    const updateDate = array[0];
+    return updateDate;
+  };
 
   const handleInput = (event, number) => {
     event.preventDefault();
@@ -27,7 +23,10 @@ const Update = () => {
     });
   };
 
-  const {handleConvertRecords, handleConvertAuctionLossess , handleConvertService} = useHooks(setData, file);
+  const {
+    handleConvertRecords,
+    handleConvertAuctionLossess,
+  } = useHooks(setData, file);
 
   const handleUpdate = (data, arrayName) => {
     localStorage.setItem(arrayName, JSON.stringify(data));
@@ -36,7 +35,12 @@ const Update = () => {
 
   return (
     <VerticalDiv>
-      <Title>Ewidencja: &nbsp; {typeof lastUpdateDate("invoices") === "string" ? `(ostatni update: ${lastUpdateDate("invoices")})` : ""}</Title>
+      <Title>
+        Ewidencja: &nbsp;{" "}
+        {typeof lastUpdateDate("invoices") === "string"
+          ? `(ostatni update: ${lastUpdateDate("invoices")})`
+          : ""}
+      </Title>
       <Container>
         <FormStyled>
           <InputStyled
@@ -44,7 +48,9 @@ const Update = () => {
             onChange={(event) => handleInput(event, 0)}
           />
           {file[0] && data[0] === null ? (
-            <button onClick={(event) => handleConvertRecords(event)}>Konwertuj</button>
+            <button onClick={(event) => handleConvertRecords(event)}>
+              Konwertuj
+            </button>
           ) : (
             ""
           )}
@@ -55,7 +61,12 @@ const Update = () => {
           ""
         )}
       </Container>
-      <Title>Szkody do aukcji: &nbsp; {typeof lastUpdateDate("losses") === "string" ? `(Ostatni update: ${lastUpdateDate("losses")})` : ""}</Title>
+      <Title>
+        Szkody do aukcji: &nbsp;{" "}
+        {typeof lastUpdateDate("losses") === "string"
+          ? `(Ostatni update: ${lastUpdateDate("losses")})`
+          : ""}
+      </Title>
       <Container>
         <FormStyled>
           <InputStyled
@@ -63,33 +74,15 @@ const Update = () => {
             onChange={(event) => handleInput(event, 1)}
           />
           {file[1] && data[1] === null ? (
-            <button onClick={(event) => handleConvertAuctionLossess(event)}>Konwertuj</button>
+            <button onClick={(event) => handleConvertAuctionLossess(event)}>
+              Konwertuj
+            </button>
           ) : (
             ""
           )}
         </FormStyled>
         {data[1] !== null ? (
           <button onClick={() => handleUpdate(data[1], "losses")}>GO</button>
-        ) : (
-          ""
-        )}
-        
-      </Container>
-      <Title>Numery kontraktów do historii serwisowych: &nbsp; {typeof lastUpdateDate("service") === "string" ? `(Ostatni update: ${lastUpdateDate("service")})` : ""}</Title>
-      <Container>
-        <FormStyled>
-          <InputStyled
-            type="file"
-            onChange={(event) => handleInput(event, 2)}
-          />
-          {file[2] && data[2] === null ? (
-            <button onClick={(event) => handleConvertService(event)}>Konwertuj</button>
-          ) : (
-            ""
-          )}
-        </FormStyled>
-        {data[2] !== null ? (
-          <button onClick={() => handleUpdate(data[2], "service")}>GO</button>
         ) : (
           ""
         )}
