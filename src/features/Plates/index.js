@@ -1,7 +1,8 @@
 import { AStyled, VerticalDiv } from "../../common/styles";
+import contracts from "../../service.json";
 
 const Plates = ({ plates }) => {
-  const maintance = JSON.parse(localStorage.getItem("service")) || [];
+  const maintance = contracts;
 
   const handleMaintance = (event, maintancePlate) => {
     event.preventDefault();
