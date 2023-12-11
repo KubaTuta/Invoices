@@ -30,12 +30,14 @@ export const useHooks = (setData, file) => {
             const cellB = worksheet[XLSX.utils.encode_cell({ r: i, c: 36 })];
             const cellC = worksheet[XLSX.utils.encode_cell({ r: i, c: 2 })];
             const cellD = worksheet[XLSX.utils.encode_cell({ r: i, c: 37 })];
+            const cellE = worksheet[XLSX.utils.encode_cell({ r: i, c: 18 })];
 
             if (cellA) {
               const plate = cellA.v;
               const fvNumber = cellB ? cellB.v : undefined;
               const status = cellC ? cellC.v : "Brak";
               const excelDate = cellD ? cellD.v : "Brak";
+              const comment = cellE ? cellE.v : undefined;
               const invoiceIssue =
                 excelDate !== "Brak"
                   ? new Date(
@@ -46,7 +48,7 @@ export const useHooks = (setData, file) => {
                       day: "2-digit"
                     })
                   : undefined;
-              const obj = { id: i, plate, status, fvNumber, invoiceIssue };
+              const obj = { id: i, plate, status, fvNumber, invoiceIssue, comment };
               resultArray.push(obj);
             }
           }
