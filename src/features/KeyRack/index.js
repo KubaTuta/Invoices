@@ -1,20 +1,40 @@
 import { useState } from "react";
 import { CustomDatePicker, Layout, StyledSelect, Tile } from "./styles";
+// import Comment from "./Comment";
 
 export const KeyRack = () => {
-  const evidence = JSON.parse(localStorage.getItem("invoices"));
+  const records = JSON.parse(localStorage.getItem("invoices"));
 
-  const [selectedFilter, setSelectedFilter] = useState({
-    id: "ALL",
-    plate: "ALL",
-    status: "ALL",
-    fvNumber: "ALL",
-    invoiceIssue: "ALL",
+  const createSelectedFilters = () => {
+    const filters = {};
+
+    records.forEach((singleCarDataObject) => {
+      if (typeof singleCarDataObject === "object") {
+        Object.keys(singleCarDataObject).forEach((key) => {
+          filters[key] = "ALL";
+        });
+      }
+    });
+    return filters;
+  };
+
+  const [selectedFilters, setSelectedFilters] = useState(
+    createSelectedFilters()
+  );
+
+  const headers = Object.keys(selectedFilters);
+
+  const filteredRecords = records.filter((singleCarDataObject) => {
+    return headers.every((header) => {
+      return (
+        selectedFilters[header] === "ALL" ||
+        selectedFilters[header] === singleCarDataObject[header]
+      );
+    });
   });
-  const headers = Object.keys(selectedFilter);
 
   const handleFilterChanger = (filter, filterType) => {
-    setSelectedFilter((prevFilter) => ({
+    setSelectedFilters((prevFilter) => ({
       ...prevFilter,
       [filterType]: isNaN(filter) ? filter : parseFloat(filter),
     }));
@@ -27,24 +47,19 @@ export const KeyRack = () => {
 
     const formattedDate = `${day}.${month}.${year}`;
 
-    setSelectedFilter({ ...selectedFilter, invoiceIssue: formattedDate });
+    setSelectedFilters({ ...selectedFilters, invoiceIssue: formattedDate });
   };
 
   const dateFormatter = () => {
-    const dateArray = selectedFilter.invoiceIssue.split(".");
+    const dateArray = selectedFilters.invoiceIssue.split(".");
     const day = parseInt(dateArray[0], 10);
     const month = parseInt(dateArray[1], 10) - 1;
     const year = parseInt(dateArray[2], 10);
     return new Date(year, month, day);
   };
 
-  const filteredEvidence = evidence.filter((filterType) => {
-    return headers.every((key) => {
-      return (
-        selectedFilter[key] === "ALL" || selectedFilter[key] === filterType[key]
-      );
-    });
-  });
+  // const [comments, setComments] = useState(filteredRecords.map((filterType) => filterType["comment"]))
+  // console.log(comments)
 
   return (
     <>
@@ -57,28 +72,61 @@ export const KeyRack = () => {
       <Layout>
         {headers.map((header, index) => {
           const unique = Array.from(
-            new Set(filteredEvidence.map((filterType) => filterType[header]))
+            new Set(filteredRecords.map((filterType) => filterType[header]))
           );
           if (header === "invoiceIssue") {
             return (
               <CustomDatePicker
                 selected={
-                  selectedFilter.invoiceIssue === "ALL"
+                  selectedFilters.invoiceIssue === "ALL"
                     ? new Date()
                     : dateFormatter()
                 }
                 onSelect={(date) => handleDate(date)}
                 onClickOutside={() =>
-                  setSelectedFilter({ ...selectedFilter, invoiceIssue: "ALL" })
+                  setSelectedFilters({
+                    ...selectedFilters,
+                    invoiceIssue: "ALL",
+                  })
                 }
                 dateFormat="dd.MM.yyyy"
               />
+            );
+          } else if (header === "comment") {
+            return (
+              <div key={index}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={selectedFilters[header] === "ALL"}
+                  />
+                  ALL
+                </label>
+                {unique.slice(0, 3).map((status) => (
+                  <div key={status}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={selectedFilters[header] === status}
+                      />
+                      {status}
+                    </label>
+                  </div>
+                ))}
+              </div>
+
+              // <Comment
+              //   index={index}
+              //   selectedFilter={selectedFilter}
+              //   header={header}
+              //   unique={unique}
+              // />
             );
           } else
             return (
               <StyledSelect
                 key={index}
-                value={selectedFilter[header]}
+                value={selectedFilters[header]}
                 onChange={(e) => handleFilterChanger(e.target.value, header)}
               >
                 <option value="ALL">ALL</option>
@@ -92,13 +140,11 @@ export const KeyRack = () => {
         })}
       </Layout>
 
-      {filteredEvidence.slice(0, 100).map((filterType) => (
-        <Layout key={filterType.id}>
-          <Tile>{filterType.id}</Tile>
-          <Tile>{filterType.plate}</Tile>
-          <Tile>{filterType.status}</Tile>
-          <Tile>{filterType.fvNumber}</Tile>
-          <Tile>{filterType.invoiceIssue}</Tile>
+      {filteredRecords.slice(0, 100).map((singleCarDataObject, index) => (
+        <Layout key={singleCarDataObject.id}>
+          {headers.map((header, index) => (
+            <Tile key={index}>{singleCarDataObject[header]}</Tile>
+          ))}
         </Layout>
       ))}
       <button>BACK</button>
