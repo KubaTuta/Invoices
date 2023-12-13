@@ -140,13 +140,17 @@ export const KeyRack = () => {
         })}
       </Layout>
 
-      {filteredRecords.slice(0, 100).map((singleCarDataObject, index) => (
-        <Layout key={singleCarDataObject.id}>
-          {headers.map((header, index) => (
-            <Tile key={index}>{singleCarDataObject[header]}</Tile>
-          ))}
-        </Layout>
-      ))}
+      {filteredRecords.slice(0, 100).map((singleCarDataObject) => {
+        if (typeof singleCarDataObject === "object") {
+          return (
+            <Layout key={singleCarDataObject.id}>
+              {headers.map((header, index) => (
+                <Tile key={index}>{singleCarDataObject[header]}</Tile>
+              ))}
+            </Layout>
+          );
+        } else return null;
+      })}
       <button>BACK</button>
       <button>NEXT</button>
     </>
