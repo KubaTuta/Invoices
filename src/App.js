@@ -7,6 +7,7 @@ import Invoices from "./features/Invoices";
 import { useState } from "react";
 import KeyRack from "./features/KeyRack";
 import AuctionLoss from "./features/AuctionLoss";
+import S2D from "./features/S2D";
 
 function App() {
   const [plates, setPlates] = useState([""]);
@@ -60,6 +61,12 @@ function App() {
         </LinkDiv>
         <LinkDiv>
           <StyledNavLink
+            to="/S2D"
+  
+          >S2D</StyledNavLink>
+        </LinkDiv>
+        <LinkDiv>
+          <StyledNavLink
             to="/update"
             onClick={() => cleaningHandler("/update")}
           >
@@ -80,6 +87,7 @@ function App() {
         <Route path="/fv" element={<Invoices />} />
         <Route path="/keyRack" element={<KeyRack />} />
         <Route path="/auctionLoss" element={<AuctionLoss />} />
+        <Route path="/S2D" element={<S2D />} />
         <Route path="/update" element={<Update />} />
       </Routes>
     </>
