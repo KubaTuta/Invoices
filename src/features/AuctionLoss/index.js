@@ -4,7 +4,7 @@ import {
   ComboDiv,
   ComboFrame,
   TextCombo,
-} from "../WordDistributor/styles";
+} from "../Combo/styles";
 import Input from "../Input";
 import { AStyled, Container, VerticalDiv } from "../../common/styles";
 import { LeftFormat } from "./styled";

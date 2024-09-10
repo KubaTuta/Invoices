@@ -7,7 +7,7 @@ import {
 } from "../../common/styles";
 import { Equator } from "./styles";
 
-const Invoices = () => {
+const Fv = () => {
   const [fv, setFv] = useState([""]);
 
   const handleFv = (event, invoice) => {
@@ -52,4 +52,4 @@ const Invoices = () => {
   );
 };
 
-export default Invoices;
+export default Fv;

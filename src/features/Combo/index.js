@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { ComboButton, ComboDiv, ComboFrame, TextCombo } from "./styles";
-import Main from "../Main";
+import Statuses from "../Statuses";
 
-const WordDistributor = () => {
+const Combo = () => {
   const [textarea, setTextarea] = useState("");
   const [plates, setPlates] = useState([]);
 
@@ -31,9 +31,9 @@ const WordDistributor = () => {
         <TextCombo value={textarea} onChange={updateTextarea}></TextCombo>
         <ComboButton onClick={distributWords}>GO</ComboButton>
       </ComboFrame>
-      <Main plates={plates} setPlates={setPlates} textarea={textarea} setTextarea={setTextarea} />
+      <Statuses plates={plates} setPlates={setPlates} textarea={textarea} setTextarea={setTextarea} />
     </ComboDiv>
   );
 };
 
-export default WordDistributor;
+export default Combo;

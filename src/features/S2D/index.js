@@ -4,7 +4,7 @@ import {
   ComboDiv,
   ComboFrame,
   TextCombo,
-} from "../WordDistributor/styles";
+} from "../Combo/styles";
 const XLSX = require("xlsx");
 
 const S2D = () => {
