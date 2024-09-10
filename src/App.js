@@ -1,13 +1,12 @@
-import Update from "./features/Update";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import Main from "./features/Main";
 import { Bar, LinkDiv, StyledNavLink } from "./styles";
-import WordDistributor from "./features/WordDistributor";
-import Invoices from "./features/Invoices";
 import { useState } from "react";
+import Combo from "./features/Combo";
+import Fv from "./features/Fv";
 import KeyRack from "./features/KeyRack";
 import AuctionLoss from "./features/AuctionLoss";
 import S2D from "./features/S2D";
+import Update from "./features/Update";
 
 function App() {
   const [plates, setPlates] = useState([""]);
@@ -19,21 +18,11 @@ function App() {
   return (
     <>
       <Bar>
+
         <LinkDiv>
           <StyledNavLink
-            to="*"
-            onClick={() => {
-              cleaningHandler("*");
-              setPlates([""]);
-            }}
-          >
-            Main
-          </StyledNavLink>
-        </LinkDiv>
-        <LinkDiv>
-          <StyledNavLink
-            to="/wordDistributor"
-            onClick={() => cleaningHandler("/wordDistributor")}
+            to="/combo"
+            onClick={() => cleaningHandler("/combo")}
           >
             Combo
           </StyledNavLink>
@@ -78,13 +67,9 @@ function App() {
       <Routes>
         <Route
           path="*"
-          element={<Main plates={plates} setPlates={setPlates} />}
+          element={<Combo plates={plates} setPlates={setPlates} />}
         />
-        <Route
-          path="/wordDistributor"
-          element={<WordDistributor plates={plates} setPlates={setPlates} />}
-        />
-        <Route path="/fv" element={<Invoices />} />
+        <Route path="/fv" element={<Fv />} />
         <Route path="/keyRack" element={<KeyRack />} />
         <Route path="/auctionLoss" element={<AuctionLoss />} />
         <Route path="/S2D" element={<S2D />} />
