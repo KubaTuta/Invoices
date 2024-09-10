@@ -31,6 +31,7 @@ export const useHooks = (setData, file) => {
             const cellC = worksheet[XLSX.utils.encode_cell({ r: i, c: 2 })];
             const cellD = worksheet[XLSX.utils.encode_cell({ r: i, c: 37 })];
             const cellE = worksheet[XLSX.utils.encode_cell({ r: i, c: 18 })];
+            const cellF = worksheet[XLSX.utils.encode_cell({ r: i, c: 39 })];
 
             if (cellA) {
               const plate = cellA.v;
@@ -38,17 +39,27 @@ export const useHooks = (setData, file) => {
               const status = cellC ? cellC.v : "Brak";
               const excelDate = cellD ? cellD.v : "Brak";
               const comment = cellE ? cellE.v : undefined;
+              const oc = cellF ? cellF.v : "Brak";
               const invoiceIssue =
                 excelDate !== "Brak"
-                  ? new Date(
-                      (excelDate - 25569) * 86400000
-                    ).toLocaleDateString("pl-PL", {
-                      year: "numeric",
-                      month: "2-digit",
-                      day: "2-digit"
-                    })
+                  ? new Date((excelDate - 25569) * 86400000).toLocaleDateString(
+                      "pl-PL",
+                      {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      }
+                    )
                   : undefined;
-              const obj = { id: i, plate, status, fvNumber, invoiceIssue, comment };
+              const obj = {
+                id: i,
+                plate,
+                status,
+                fvNumber,
+                invoiceIssue,
+                comment,
+                oc
+              };
               resultArray.push(obj);
             }
           }
