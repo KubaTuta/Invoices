@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  ComboButton,
-  ComboDiv,
-  ComboFrame,
-  TextCombo,
-} from "../Combo/styles";
+import { ComboButton, ComboDiv, ComboFrame, TextCombo } from "../Combo/styles";
 const XLSX = require("xlsx");
 
 const S2D = () => {
@@ -22,6 +17,7 @@ const S2D = () => {
       data.przebieg,
       data.comment,
       data.mailAddress,
+      data.phoneNumber,
     ]);
 
     const ws = XLSX.utils.aoa_to_sheet(sheetData);
@@ -39,10 +35,17 @@ const S2D = () => {
         ? "Firma użytkująca"
         : "Data zakończenia kontraktu"
     );
-    const startComment = textarea.indexOf("Uwagi o stanie pojazdu");
-    const endComment = textarea.indexOf("Imię i nazwisko");
+    const startCommentIndex = textarea.indexOf("Uwagi o stanie pojazdu");
+    const endCommentIndex = textarea.indexOf("Imię i nazwisko");
     const mailRegex = /Adres email\s*([\w.-]+@[\w.-]+\.\w+)/i;
     const mailMatch = textarea.match(mailRegex);
+    const startPhoneNumberIndex = textarea.indexOf("Numer telefonu");
+    const endPhoneNumberIndex = textarea.indexOf(
+      "Twoja proponowana cena pojazdu"
+    );
+    const alternateEndPhoneNumberIndex = textarea.indexOf(
+      "Wyrażam zgodę na kontakt w celu przedstawienia oferty"
+    );
 
     const plate = textarea
       .substring(startPlateIndex + "Numer rejestracyjny".length, endPlateIndex)
@@ -57,15 +60,28 @@ const S2D = () => {
       .trim()
       .replace(/\s+/g, "");
 
-    const comment = textarea
-      .substring(startComment + "Uwagi o stanie pojazdu".length, endComment)
-      .trim();
+    const comment =
+      startCommentIndex === -1
+        ? null
+        : textarea
+            .substring(
+              startCommentIndex + "Uwagi o stanie pojazdu".length,
+              endCommentIndex
+            )
+            .trim();
+
+    const phoneNumber = textarea.substring(
+      startPhoneNumberIndex + "Numer telefonu".length, endPhoneNumberIndex === -1
+        ? alternateEndPhoneNumberIndex
+        : endPhoneNumberIndex
+    );
 
     const newCells = {
       plate,
       przebieg,
       comment,
       mailAddress: mailMatch ? mailMatch[1] : undefined,
+      phoneNumber,
     };
 
     setExcelExport((prevExport) => [...prevExport, { ...newCells }]);
@@ -82,7 +98,7 @@ const S2D = () => {
       <div>
         {excelExport.map((record, index) => (
           <div key={index}>
-            {record.plate}, {record.przebieg}, {record.mailAddress},{" "}
+            {record.plate}, {record.przebieg}, {record.mailAddress},{record.phoneNumber},{" "}
             {record.comment}
           </div>
         ))}
